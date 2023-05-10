@@ -1,0 +1,54 @@
+service: aws-node-http-api-project
+frameworkVersion: "3"
+
+provider:
+    name: aws
+    runtime: nodejs18.x
+    region: us-east-1
+    environment:
+        DB_HOST: database-prueba.cg2ciupcl6lx.us-east-1.rds.amazonaws.com
+        DB_USER: admin
+        DB_PASSWORD: 74587342
+        DB_DATABASE: app_db
+
+functions:
+    api:
+        handler: src/index.handler
+        events:
+            - httpApi:
+                  path: /
+                  method: get
+    createTask:
+        handler: src/actions/createTask.createTask
+        events:
+            - httpApi:
+                  path: /tasks
+                  method: POST
+
+    showTasks:
+        handler: src/actions/showTasks.showTasks
+        events:
+            - httpApi:
+                  path: /tasks
+                  method: GET
+
+    showTask:
+        handler: src/actions/showTask.showTask
+        events:
+            - httpApi:
+                  path: /tasks/{id}
+                  method: GET
+
+    editTask:
+        handler: src/actions/editTask.editTask
+        events:
+            - httpApi:
+                  path: /tasks/{id}
+                  method: PUT
+
+    deleteTask:
+        handler: src/actions/deleteTask.deleteTask
+        events:
+            - httpApi:
+                  path: /tasks/{id}
+                  method: DELETE
